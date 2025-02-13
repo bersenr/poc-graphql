@@ -1,0 +1,27 @@
+type Query {
+	getAccountById(id : ID!): Account
+	getAccounts: [Account]
+	getAccountByAccountNumber(accountNumber: String!): Account
+	
+	getProfileById(id: ID!): Profile
+ 	getProfiles:[Profile]
+}
+
+type Mutation {
+	addAccount (accountNumber: String!, accountName: String!, fullName: String!, number: String!): Account
+	updateAccountBalance(accountNumber: String!, balance: Int!): Account
+}
+
+type Account {
+	id : ID!
+	accountNumber: String!
+	accountName: String!
+	balance: Int!
+	accountProfile: Profile
+}
+
+ type Profile {
+ 	id : ID!
+ 	fullName : String!
+ 	number: String!
+ }

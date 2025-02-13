@@ -1,0 +1,25 @@
+type Mutation {
+	deposit(accountNumber:String!, amount:Int!): Transaction!
+	withdraw(accountNumber:String!, amount:Int!): Transaction!
+}
+
+type Query {
+	balanceInquiry(accountNumber:String!): Account!
+	getTransactionHistory(accountNumber:String!):[Transaction]!
+	getDeposits(accountNumber:String!):[Transaction]!
+	getWithdrawal(accountNumber:String!):[Transaction]!
+	getBalanceInquiry(accountNumber:String!):[Transaction]!
+}
+
+type Account {
+	accountNumber : String!
+	balance : Int!
+}
+
+type Transaction {
+	transactionDate : String!
+	transactionType : String!
+	amount : Int!
+	accountNumber: String!
+	balance: Int!
+}

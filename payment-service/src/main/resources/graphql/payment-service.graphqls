@@ -1,0 +1,27 @@
+type Query {
+	getPayment (paymentId: ID!) : Payment!
+	getPaymentsByAccountNumber (accountNumber: String!) : [Payment]
+	getPaymentsByAccountNumberAndBiller (accountNumber: String!, billerAccountNum: Int!) : [Payment]
+	getBiller (billerAccountNum: Int!): Biller!
+}
+
+type Mutation{
+	payBill (accountNum: String!, billerAccountNum: Int!, amount: Int!): Payment!
+	addBiller (billerAccountNum: Int!, billerName: String!) : Biller!
+	deleteBiller (billerAccountNum: Int!) : String!
+}
+
+type Payment{
+	id : ID!
+	accountNumber : String!
+	amount : Int!
+	paymentDate : String!
+	biller : Biller
+}
+
+type Biller{
+	id: ID!
+	billerName: String!
+	billerAccountNumber: Int!
+	payments: [Payment]
+}
