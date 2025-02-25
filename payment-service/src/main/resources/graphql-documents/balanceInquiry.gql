@@ -1,0 +1,6 @@
+query inquiry($accountNumber: String!) {
+	balanceInquiry(accountNumber: $accountNumber) {
+		accountNumber
+		balance
+	}
+}

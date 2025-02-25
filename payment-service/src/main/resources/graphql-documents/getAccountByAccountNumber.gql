@@ -1,0 +1,8 @@
+query accounts($accountNumber: String!) {
+	getAccountByAccountNumber(accountNumber: $accountNumber) {
+		id
+		accountName
+		accountNumber
+		balance
+	}
+}
