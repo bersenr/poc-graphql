@@ -1,0 +1,8 @@
+query updateBalance($accountNumber: String!, $balance: Int!) {
+	updateAccountBalance(accountNumber: $accountNumber, balance: $balance) {
+		id
+		accountName
+		accountNumber
+		balance
+	}
+}
