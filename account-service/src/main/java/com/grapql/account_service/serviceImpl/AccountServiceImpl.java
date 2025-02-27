@@ -13,7 +13,9 @@ import com.grapql.account_service.service.AccountService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -46,21 +48,20 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	public Account updateAccountBalance(String accountNumber, long balance) throws Exception {
-		Optional<Account> account = accountRepo.findByAccountNumberEqualsIgnoreCase(accountNumber);
-		if (!account.isPresent()) {
-			throw new Exception("Account does not exist.");
+	public Account updateAccountBalance(String accountNumber, long balance) {
+		try {
+			Account account = accountRepo.findByAccountNumberEqualsIgnoreCase(accountNumber)
+					.orElseThrow(() -> new RuntimeException("Account does not exist."));
+
+			log.info("Account version selected {}: {}", accountNumber, account.getVersion());
+
+			Thread.sleep(3000);
+
+			account.setBalance(balance);
+			return accountRepo.save(account);
+		} catch (Exception e) {
+			log.error("Unexpected error while updating account {}: {}", accountNumber, e.getMessage());
+			throw new RuntimeException("Could not update account balance.");
 		}
-
-		int update = accountRepo.updateAccountBalance(accountNumber, balance);
-
-		if (update == 1) {
-			entityManager.clear();
-			return accountRepo.findByAccountNumberEqualsIgnoreCase(accountNumber)
-					.orElseThrow(() -> new Exception("Failed to retrieve updated account"));
-		}
-
-		return null;
 	}
-
 }

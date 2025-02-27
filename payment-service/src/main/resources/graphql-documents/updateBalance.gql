@@ -1,4 +1,4 @@
-query updateBalance($accountNumber: String!, $balance: Int!) {
+mutation updateBalance($accountNumber: String!, $balance: Int!) {
 	updateAccountBalance(accountNumber: $accountNumber, balance: $balance) {
 		id
 		accountName
