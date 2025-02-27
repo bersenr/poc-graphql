@@ -93,7 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
 		Map<String, Object> variables = new HashMap<>();
 		variables.put("accountNumber", accountNumber);
 		variables.put("balance", balance);
-		return accountService.documentName("updateBalance").variables(variables).retrieveSync("updateBalance")
+		return accountService.documentName("updateBalance").variables(variables).retrieveSync("updateAccountBalance")
 				.toEntity(Account.class);
 	}
 
