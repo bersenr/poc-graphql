@@ -22,8 +22,10 @@ public class Profile {
 	private Long id;
 
 	private String fullName;
-	private String number;
+	private String phoneNumber;
 
-	@OneToOne(mappedBy = "accountProfile")
-	private Account account;
+	@OneToOne(mappedBy = "accountProfile")  
+    // This is the inverse side of the one-to-one relationship with `Account`
+    // `mappedBy = "accountProfile"` refers to the `accountProfile` field in `Account`
+    private Account account;
 }

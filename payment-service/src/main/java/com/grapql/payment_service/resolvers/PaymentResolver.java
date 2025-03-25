@@ -17,24 +17,52 @@ public class PaymentResolver {
 	@Autowired
 	private PaymentServiceImpl paymentServiceImpl;
 
-	@MutationMapping
-	public Payment payBill(@Argument String accountNum, @Argument int billerAccountNum, @Argument long amount) {
-		return paymentServiceImpl.payBill(accountNum, billerAccountNum, amount);
-	}
+	/**
+     * GraphQL Mutation to process a bill payment.
+     *
+     * @param accountNum       The account number of the payer.
+     * @param billerAccountNum The biller's account number to which the payment is made.
+     * @param amount           The amount to be paid.
+     * @return The newly created Payment entity.
+     */
+    @MutationMapping
+    public Payment payBill(@Argument String accountNum, @Argument int billerAccountNum, @Argument long amount) {
+        return paymentServiceImpl.payBill(accountNum, billerAccountNum, amount);
+    }
 
-	@QueryMapping
-	public Payment getPayment(@Argument Long paymentId) {
-		return paymentServiceImpl.getPayment(paymentId).get();
-	}
+    /**
+     * GraphQL Query to retrieve a specific Payment by its ID.
+     *
+     * @param paymentId The unique identifier of the Payment.
+     * @return The Payment entity if found.
+     */
+    @QueryMapping
+    public Payment getPayment(@Argument Long paymentId) {
+        return paymentServiceImpl.getPayment(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment with ID " + paymentId + " not found"));
+    }
 
-	@QueryMapping
-	public List<Payment> getPaymentsByAccountNumber(@Argument String accountNumber) {
-		return paymentServiceImpl.getPaymentsByAccountNumber(accountNumber);
-	}
+    /**
+     * GraphQL Query to retrieve all Payments associated with a given account number.
+     *
+     * @param accountNumber The account number of the payer.
+     * @return A list of Payment entities related to the specified account number.
+     */
+    @QueryMapping
+    public List<Payment> getPaymentsByAccountNumber(@Argument String accountNumber) {
+        return paymentServiceImpl.getPaymentsByAccountNumber(accountNumber);
+    }
 
-	@QueryMapping
-	public List<Payment> getPaymentsByAccountNumberAndBiller(@Argument String accountNumber,
-			@Argument int billerAccountNum) {
-		return paymentServiceImpl.getPaymentsByAccountNumberAndBiller(accountNumber, billerAccountNum);
-	}
+    /**
+     * GraphQL Query to retrieve all Payments made from a specific account to a specific Biller.
+     *
+     * @param accountNumber    The account number of the payer.
+     * @param billerAccountNum The biller's account number.
+     * @return A list of Payment entities that match the account and biller.
+     */
+    @QueryMapping
+    public List<Payment> getPaymentsByAccountNumberAndBiller(@Argument String accountNumber,
+                                                             @Argument int billerAccountNum) {
+        return paymentServiceImpl.getPaymentsByAccountNumberAndBiller(accountNumber, billerAccountNum);
+    }
 }

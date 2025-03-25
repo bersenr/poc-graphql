@@ -29,6 +29,9 @@ public class Payment {
 	private LocalDate paymentDate;
 
 	@ManyToOne
-	@JoinColumn(name = "biller_id", nullable = false)
-	private Biller biller;
+    @JoinColumn(name = "biller_id", nullable = false)
+    // Many Payments belong to one Biller.
+    // `biller_id` is the foreign key column in the Payment table.
+    // `nullable = false` ensures that every Payment must be linked to a Biller.
+    private Biller biller;
 }
