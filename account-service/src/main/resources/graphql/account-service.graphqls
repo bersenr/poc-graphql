@@ -8,7 +8,7 @@ type Query {
 }
 
 type Mutation {
-	addAccount (accountNumber: String!, accountName: String!, fullName: String!, number: String!): Account
+	addAccount (accountNumber: String!, accountName: String!, fullName: String!, phoneNumber: String!): Account
 	updateAccountBalance(accountNumber: String!, balance: Int!): Account
 }
 
@@ -23,5 +23,5 @@ type Account {
  type Profile {
  	id : ID!
  	fullName : String!
- 	number: String!
+ 	phoneNumber: String!
  }

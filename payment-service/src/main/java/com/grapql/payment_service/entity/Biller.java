@@ -29,5 +29,8 @@ public class Biller {
 	private int billerAccountNumber;
 
 	@OneToMany(mappedBy = "biller", cascade = CascadeType.ALL)
-	private List<Payment> payments = new ArrayList<Payment>();
+    // One Biller can have multiple Payments.
+    // `mappedBy = "biller"` means this is the inverse side of the relationship.
+    // CascadeType.ALL ensures that when a Biller is deleted, all related Payments are also deleted.
+    private List<Payment> payments = new ArrayList<>();
 }

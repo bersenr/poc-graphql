@@ -10,8 +10,6 @@ import com.grapql.account_service.entity.Account;
 import com.grapql.account_service.repo.AccountRepo;
 import com.grapql.account_service.service.AccountService;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,40 +20,65 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private AccountRepo accountRepo;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
+	/**
+	 * Creates and saves a new account.
+	 *
+	 * @param account The account entity to be created.
+	 * @return The saved account.
+	 */
 	@Override
 	public Account createAccount(Account account) {
 		return accountRepo.save(account);
 	}
 
+	/**
+	 * Retrieves an account by its ID.
+	 *
+	 * @param id The unique ID of the account.
+	 * @return An Optional containing the account if found, otherwise empty.
+	 */
 	@Override
 	public Optional<Account> getAccount(Long id) {
 		return accountRepo.findById(id);
 	}
 
+	/**
+	 * Retrieves all accounts.
+	 *
+	 * @return A list of all accounts.
+	 */
 	@Override
 	public List<Account> getAccounts() {
 		return accountRepo.findAll();
 	}
 
+	/**
+	 * Retrieves an account by its account number (case-insensitive).
+	 *
+	 * @param accountNumber The unique account number.
+	 * @return An Optional containing the account if found, otherwise empty.
+	 */
 	@Override
 	public Optional<Account> getAccountByAccountNumber(String accountNumber) {
-		Optional<Account> account = accountRepo.findByAccountNumberEqualsIgnoreCase(accountNumber);
-		return account;
+		return accountRepo.findByAccountNumberEqualsIgnoreCase(accountNumber);
 	}
 
+	/**
+	 * Updates the balance of an account using optimistic locking.
+	 * 
+	 * @param accountNumber The account number to update.
+	 * @param balance       The new balance to set.
+	 * @return The updated account.
+	 * @throws RuntimeException If the account does not exist or an error occurs.
+	 */
 	@Override
 	@Transactional
 	public Account updateAccountBalance(String accountNumber, long balance) {
 		try {
-			Account account = accountRepo.findByAccountNumberEqualsIgnoreCase(accountNumber)
-					.orElseThrow(() -> new RuntimeException("Account does not exist."));
+			Account account = accountRepo.findByAccountNumberEqualsIgnoreCase(accountNumber).orElseThrow(
+					() -> new RuntimeException("Account with number " + accountNumber + " does not exist."));
 
-			log.info("Account version selected {}: {}", accountNumber, account.getVersion());
-
-			Thread.sleep(3000);
+			Thread.sleep(3000); // Simulate concurrent update
 
 			account.setBalance(balance);
 			return accountRepo.save(account);

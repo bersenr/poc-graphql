@@ -17,23 +17,41 @@ public class BillerServiceImpl implements BillerService {
 	@Autowired
 	private BillerRepo billerRepo;
 
-	@Override
-	public Biller addBiller(int billerAccountNum, String billerName) {
-		Biller biller = new Biller();
-		biller.setBillerAccountNumber(billerAccountNum);
-		biller.setBillerName(billerName);
-		return billerRepo.save(biller);
-	}
+	/**
+     * Adds a new Biller to the database.
+     *
+     * @param billerAccountNum The unique account number of the Biller.
+     * @param billerName       The name of the Biller.
+     * @return The newly created and saved Biller entity.
+     */
+    @Override
+    public Biller addBiller(int billerAccountNum, String billerName) {
+        Biller biller = new Biller();
+        biller.setBillerAccountNumber(billerAccountNum);
+        biller.setBillerName(billerName);
+        return billerRepo.save(biller);
+    }
 
-	@Override
-	public Optional<Biller> getBiller(int billerAccountNum) {
-		return billerRepo.findByBillerAccountNumber(billerAccountNum);
-	}
+    /**
+     * Retrieves a Biller by its account number.
+     *
+     * @param billerAccountNum The unique account number of the Biller.
+     * @return An Optional containing the Biller entity if found, or empty if not.
+     */
+    @Override
+    public Optional<Biller> getBiller(int billerAccountNum) {
+        return billerRepo.findByBillerAccountNumber(billerAccountNum);
+    }
 
-	@Transactional
-	@Override
-	public void deleteBiller(int billerAccountNum) {
-		billerRepo.deleteByBillerAccountNumber(billerAccountNum);
-	}
-
+    /**
+     * Deletes a Biller by its account number.
+     * Uses the `@Transactional` annotation to ensure data consistency.
+     *
+     * @param billerAccountNum The unique account number of the Biller to be deleted.
+     */
+    @Transactional
+    @Override
+    public void deleteBiller(int billerAccountNum) {
+        billerRepo.deleteByBillerAccountNumber(billerAccountNum);
+    }
 }
