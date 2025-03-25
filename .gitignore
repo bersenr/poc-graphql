@@ -16,3 +16,7 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 /.metadata/
+
+# Ignore application.properties files
+application.properties
+**/application.properties
