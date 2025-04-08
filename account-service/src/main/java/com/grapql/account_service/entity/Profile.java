@@ -22,7 +22,7 @@ public class Profile {
 	private Long id;
 
 	private String fullName;
-	private String number;
+	private String phoneNumber;
 
 	@OneToOne(mappedBy = "accountProfile")
 	private Account account;

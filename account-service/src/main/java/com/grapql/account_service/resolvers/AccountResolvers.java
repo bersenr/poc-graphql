@@ -25,10 +25,10 @@ public class AccountResolvers {
 
 	@MutationMapping
 	public Account addAccount(@Argument String accountNumber, @Argument String accountName, @Argument String fullName,
-			@Argument String number) {
+			@Argument String phoneNumber) {
 		Profile profile = new Profile();
 		profile.setFullName(fullName);
-		profile.setNumber(number);
+		profile.setPhoneNumber(phoneNumber);
 
 		Profile savedProfile = profileServiceImpl.addProfile(profile);
 

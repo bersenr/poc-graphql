@@ -55,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
 
 			log.info("Account version selected {}: {}", accountNumber, account.getVersion());
 
-			Thread.sleep(3000);
+			Thread.sleep(3000); // Trigger delay to simulate concurrent update
 
 			account.setBalance(balance);
 			return accountRepo.save(account);

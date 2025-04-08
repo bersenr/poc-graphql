@@ -1,5 +1,7 @@
 package com.grapql.account_service.exception;
 
+import java.util.Map;
+
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
@@ -21,7 +23,7 @@ public class GraphQLExceptionHandler extends DataFetcherExceptionResolverAdapter
 		if (ex instanceof ObjectOptimisticLockingFailureException) {
 			log.error("Optimistic locking error for field {}: {}", env.getField().getName(), ex.getMessage(), ex);
 			return GraphqlErrorBuilder.newError().errorType(GraphQLCustomError.OPTIMISTIC_LOCKING_FAILURE)
-					.message("Row was updated or deleted by another transaction")
+					.message("Row was updated or deleted by another transaction").extensions(Map.of("status", 409))
 					.path(env.getExecutionStepInfo().getPath()).location(env.getField().getSourceLocation()).build();
 		} else {
 			return null;
