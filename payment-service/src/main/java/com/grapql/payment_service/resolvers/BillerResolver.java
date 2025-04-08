@@ -15,19 +15,39 @@ public class BillerResolver {
 	@Autowired
 	private BillerServiceImpl billerServiceImpl;
 
+	/**
+	 * GraphQL Mutation to add a new Biller.
+	 *
+	 * @param billerAccountNum The unique account number of the Biller.
+	 * @param billerName       The name of the Biller.
+	 * @return The newly created Biller entity.
+	 */
 	@MutationMapping
 	public Biller addBiller(@Argument int billerAccountNum, @Argument String billerName) {
 		return billerServiceImpl.addBiller(billerAccountNum, billerName);
 	}
 
+	/**
+	 * GraphQL Mutation to delete a Biller by its account number.
+	 *
+	 * @param billerAccountNum The unique account number of the Biller to be deleted.
+	 * @return A success message after deletion.
+	 */
 	@MutationMapping
 	public String deleteBiller(@Argument int billerAccountNum) {
 		billerServiceImpl.deleteBiller(billerAccountNum);
 		return "Biller deleted successfully";
 	}
 
+	/**
+	 * GraphQL Query to fetch a Biller by its account number.
+	 *
+	 * @param billerAccountNum The unique account number of the Biller.
+	 * @return The Biller entity if found.
+	 */
 	@QueryMapping
 	public Biller getBiller(@Argument int billerAccountNum) {
-		return billerServiceImpl.getBiller(billerAccountNum).get();
+		return billerServiceImpl.getBiller(billerAccountNum).orElseThrow(
+				() -> new RuntimeException("Biller with account number " + billerAccountNum + " not found"));
 	}
 }

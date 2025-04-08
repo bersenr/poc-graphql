@@ -16,7 +16,9 @@ public interface BillerRepo extends JpaRepository<Biller, Long> {
 	Optional<Biller> findByBillerAccountNumber(int billerAccountNum);
 
 	@Modifying
-	@Query("DELETE FROM Biller b WHERE b.billerAccountNumber = :billerAccountNum")
-	void deleteByBillerAccountNumber(@Param("billerAccountNum") int billerAccountNum);
-
+    @Query("DELETE FROM Biller b WHERE b.billerAccountNumber = :billerAccountNum")
+    // This is a custom JPQL query to delete a Biller entity based on its account number.
+    // `@Modifying` is required for DELETE and UPDATE queries.
+    // `:billerAccountNum` is a named parameter mapped to the method parameter.
+    void deleteByBillerAccountNumber(@Param("billerAccountNum") int billerAccountNum);
 }
