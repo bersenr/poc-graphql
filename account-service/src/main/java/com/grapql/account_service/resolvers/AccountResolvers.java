@@ -38,7 +38,6 @@ public class AccountResolvers {
 	@MutationMapping
 	public Account addAccount(@Argument String accountNumber, @Argument String accountName, @Argument String fullName,
 			@Argument String phoneNumber) {
-
 		Profile profile = new Profile();
 		profile.setFullName(fullName);
 		profile.setPhoneNumber(phoneNumber);
